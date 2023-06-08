@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { Midjourney } from "../src";
+import { Midjourney, WsMessage } from "../src";
 import { nextNonce } from "../src/utls";
 /**
  *

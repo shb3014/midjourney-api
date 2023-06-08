@@ -1,7 +1,6 @@
 # midjourney-api
 
 Node.js client for the unofficial MidJourney API.
-
 <div align="center">
 	<p>
 		<a href="https://discord.gg/GavuGHQbV4"><img src="https://img.shields.io/discord/1082500871478329374?color=5865F2&logo=discord&logoColor=white" alt="Discord server" /></a>
@@ -9,21 +8,14 @@ Node.js client for the unofficial MidJourney API.
 	</p>
 </div>
 
-[discord bot example](https://github.com/erictik/midjourney-discord-wrapper/)
-
-[web ui example](https://github.com/erictik/midjourney-ui/)  
+[discord-bot](https://github.com/erictik/midjourney-discord-wrapper/)
+[web-ui](https://github.com/erictik/midjourney-ui/)  
 
 ## Install
 
-npm
-
 ```bash
 npm i midjourney
-```
-
-yarn
-
-```bash
+# or
 yarn add midjourney
 ```
 
@@ -38,10 +30,11 @@ import { Midjourney } from "midjourney";
     Debug: true,
     Ws:true,
   });
-const msg = await client.Imagine("A little pink elephant", (uri: string) => {
-  console.log("loading", uri);
-});
-console.log({ msg });
+  await client.init();
+  const msg = await client.Imagine("A little pink elephant", (uri: string) => {
+    console.log("loading", uri);
+  });
+  console.log({ msg });
 ```
 
 ## Example
@@ -67,8 +60,8 @@ npm install
    [How to get your Discord SALAI_TOKEN:](https://www.androidauthority.com/get-discord-token-3149920/)
 
 ```bash
-export SERVER_ID="108250087147832934"
-export CHANNEL_ID="109489299228171884"
+export SERVER_ID="1082500871478329374"
+export CHANNEL_ID="1094892992281718894"
 export SALAI_TOKEN="your-salai-token"
 ```
 
