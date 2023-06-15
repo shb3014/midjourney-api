@@ -11,6 +11,8 @@ Node.js client for the unofficial MidJourney API.
 [discord-bot](https://github.com/erictik/midjourney-discord-wrapper/)
 [web-ui](https://github.com/erictik/midjourney-ui/)  
 
+Proxy agent not supported.
+The edge runtime does not support Node.js 'http' module.
 ## Install
 
 ```bash
@@ -31,10 +33,32 @@ import { Midjourney } from "midjourney";
     Ws:true,
   });
   await client.init();
-  const msg = await client.Imagine("A little pink elephant", (uri: string) => {
-    console.log("loading", uri);
+  const Imagine = await client.Imagine("A little pink elephant", (uri: string, progress:string) => {
+   onsole.log("Imagine", uri, "progress", progress);
   });
-  console.log({ msg });
+  console.log({ Imagine });
+
+  const Variation = await client.Variation(
+    Imagine.content,
+    2,
+    <string>Imagine.id,
+    <string>Imagine.hash,
+    (uri: string, progress:string) => {
+     onsole.log("Imagine", uri, "progress", progress);
+    }
+  );
+  console.log({ Variation });
+  const Upscale = await client.Upscale(
+    Variation.content,
+    2,
+    <string>Variation.id,
+    <string>Variation.hash,
+    (uri: string, progress: string) => {
+      console.log("Upscale", uri, "progress", progress);
+    }
+  );
+  console.log({ Upscale });
+
 ```
 
 ## Example
@@ -57,9 +81,12 @@ npm install
 ```
 
 3. set the environment variables
-   [How to get your Discord SALAI_TOKEN:](https://www.androidauthority.com/get-discord-token-3149920/)
+  - [How to get your Discord SALAI_TOKEN:](https://www.androidauthority.com/get-discord-token-3149920/)
+  - How to get server and channel ids: you have to [create a new personal channel](https://discord.com/blog/starting-your-first-discord-server), when you click on a channel in your server in the browser expect to have the follow URL pattern `https://discord.com/channels/$SERVER_ID/$CHANNEL_ID`
 
 ```bash
+#example variables, please set up yours
+
 export SERVER_ID="1082500871478329374"
 export CHANNEL_ID="1094892992281718894"
 export SALAI_TOKEN="your-salai-token"
@@ -71,21 +98,15 @@ Then, run the example with the following command:
 npx tsx example/imagine-ws.ts
 ```
 
-```bash
-npx tsx example/upscale-ws.ts
-```
-
-```bash
-npx tsx example/variation-ws.ts
-```
-
-
 ## route-map
+- [x] `/imagine` `variation` `upscale` 
 - [x] websocket get message
 - [x] call back error
-- [ ] add `/info`  `/fast` and `/relax`
-
-
-
+- [x] verify human
+- [x] `/info`
+- [x] `/fast api` and `/relax api`
+- [x] `/describe` 
+---
+<a href='https://ko-fi.com/erictik' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee' /></a>
 ## Star History
 [![Star History Chart](https://api.star-history.com/svg?repos=erictik/midjourney-api&type=Date)](https://star-history.com/#erictik/midjourney-api&Date)

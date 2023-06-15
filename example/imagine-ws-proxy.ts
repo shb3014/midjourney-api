@@ -2,9 +2,9 @@ import "dotenv/config";
 import { Midjourney } from "../src";
 /**
  *
- * a simple example of how to use the imagine command
+ * a simple example of using the imagine api with ws and proxy
  * ```
- * npx tsx example/imagine.ts
+ * npx tsx example/imagine-ws-proxy.ts
  * ```
  */
 async function main() {
@@ -12,18 +12,27 @@ async function main() {
     ServerId: <string>process.env.SERVER_ID,
     ChannelId: <string>process.env.CHANNEL_ID,
     SalaiToken: <string>process.env.SALAI_TOKEN,
+    ProxyUrl: <string>process.env.PROXY_URL,
+    HuggingFaceToken: <string>process.env.HUGGINGFACE_TOKEN,
     Debug: true,
+    Ws: true,
   });
-
+  await client.init();
   const msg = await client.Imagine(
-    "Red hamster smoking a cigaret, https://media.discordapp.net/attachments/1108515696385720410/1118385339732590682/DanielH_A_giant_hamster_monster._Friendly_in_a_business_suit_si_d4be1836-a4e1-41a8-b1d7-99eebc521220.png?width=1878&height=1878",
+    "A little white dog",
     (uri: string, progress: string) => {
       console.log("loading", uri, "progress", progress);
     }
   );
   console.log({ msg });
 }
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main()
+  .then(() => {
+    console.log("finished");
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.log("finished");
+    console.error(err);
+    process.exit(1);
+  });
