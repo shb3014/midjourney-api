@@ -1,6 +1,8 @@
 import { MJConfig } from "./interfaces";
 import { CreateQueue } from "./queue";
 import { nextNonce, sleep } from "./utls";
+import {ProxyAgent, fetch} from "undici";
+
 export class MidjourneyApi {
   private ApiQueue = CreateQueue(1);
   constructor(public config: MJConfig) {}
@@ -24,13 +26,18 @@ export class MidjourneyApi {
         "Content-Type": "application/json",
         Authorization: this.config.SalaiToken,
       };
+      let jD;
+      jD = {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: headers,
+      }
+      if(this.config.Proxy){
+        jD.dispatcher = new ProxyAgent(this.config.Proxy);
+      }
       const response = await fetch(
         `${this.config.DiscordBaseUrl}/api/v9/interactions`,
-        {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: headers,
-        }
+          jD,
       );
       callback && callback(response.status);
       //discord api rate limit

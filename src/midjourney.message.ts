@@ -7,6 +7,7 @@ import {
 } from "./interfaces";
 import { CreateQueue } from "./queue";
 import { sleep } from "./utls";
+import {ProxyAgent, fetch} from "undici";
 
 export class MidjourneyMessage {
   private magApiQueue = CreateQueue(1);
@@ -149,11 +150,16 @@ export class MidjourneyMessage {
   }
   async RetrieveMessages(limit = this.config.Limit) {
     const headers = { authorization: this.config.SalaiToken };
+    let jD;
+    jD = {
+      headers: headers,
+    }
+    if(this.config.Proxy){
+      jD.dispatcher = new ProxyAgent(this.config.Proxy);
+    }
     const response = await fetch(
       `${this.config.DiscordBaseUrl}/api/v10/channels/${this.config.ChannelId}/messages?limit=${limit}`,
-      {
-        headers: headers,
-      }
+      jD
     );
     if (!response.ok) {
       this.log("error config", { config: this.config });
