@@ -12,7 +12,8 @@ async function main() {
     const client = new Midjourney({
         ServerId: <string>"1111293074757402744",
         ChannelId: <string>"1111293075222954005",
-        SalaiToken: <string>"MTAxNzk1NDM4Mjg5NTEzMjY4Mg.GaEFTH.dKjjJSYTC-ij50aQwWY8H7doafaA-hnNiiscK8",
+        // SalaiToken: <string>"MTAxNzk1NDM4Mjg5NTEzMjY4Mg.GaEFTH.dKjjJSYTC-ij50aQwWY8H7doafaA-hnNiiscK8",
+        SalaiToken: <string>"MTAxNzk1NDM4Mjg5NTEzMjY4Mg.G9gdYZ.uj9MsCXdydJYVPc0dl23KdsrrQDIW-UAgQCML8",
         Debug: true,
         Ws:true,
     });
