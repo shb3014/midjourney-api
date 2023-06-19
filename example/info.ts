@@ -2,9 +2,9 @@ import "dotenv/config";
 import { Midjourney } from "../src";
 /**
  *
- * a simple example of how to use the imagine command
+ * a simple example of using the info api
  * ```
- * npx tsx example/imagine-err.ts
+ * npx tsx example/info.ts
  * ```
  */
 async function main() {
@@ -15,17 +15,18 @@ async function main() {
     Debug: true,
     Ws: true,
   });
-
   await client.Connect();
-  const msg = await client.Imagine(
-    "https://edge-runtime.vercel.app/features/available-apis",
-    (uri: string, progress: string) => {
-      console.log("loading", uri, "progress", progress);
-    }
-  );
+  const msg = await client.Info();
   console.log({ msg });
+  client.Close();
 }
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main()
+  .then(() => {
+    console.log("finished");
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.log("finished");
+    console.error(err);
+    process.exit(1);
+  });
